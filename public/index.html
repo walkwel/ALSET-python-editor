@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+  <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+  <title>React App</title>
+
+  <script type="text/javascript" src="./src/brython_builtins.js"></script>
+  <script type="text/javascript" src="./src/version_info.js"></script>
+  <script type="text/javascript" src="./src/py2js.js"></script>
+  <script type="text/javascript" src="./src/py_object.js"></script>
+  <script type="text/javascript" src="./src/py_type.js"></script>
+  <script type="text/javascript" src="./src/py_utils.js"></script>
+  <script type="text/javascript" src="./src/py_sort.js"></script>
+  <script type="text/javascript" src="./src/py_builtin_functions.js"></script>
+  <script type="text/javascript" src="./src/py_exceptions.js"></script>
+  <script type="text/javascript" src="./src/py_range_slice.js"></script>
+  <script type="text/javascript" src="./src/py_bytes.js"></script>
+  <script type="text/javascript" src="./src/py_set.js"></script>
+  <script type="text/javascript" src="./src/js_objects.js"></script>
+  <script type="text/javascript" src="./src/stdlib_paths.js"></script>
+  <script type="text/javascript" src="./src/py_import.js"></script>
+
+  <script type="text/javascript" src="./src/unicode.min.js"></script>
+  <script type="text/javascript" src="./src/py_string.js"></script>
+  <script type="text/javascript" src="./src/py_int.js"></script>
+  <script type="text/javascript" src="./src/py_long_int.js"></script>
+  <script type="text/javascript" src="./src/py_float.js"></script>
+  <script type="text/javascript" src="./src/py_complex.js"></script>
+  <script type="text/javascript" src="./src/py_dict.js"></script>
+  <script type="text/javascript" src="./src/py_list.js"></script>
+  <script type="text/javascript" src="./src/py_generator.js"></script>
+  <script type="text/javascript" src="./src/py_dom.js"></script>
+
+  <script type="text/javascript" src="./src/builtin_modules.js"></script>
+  <script type="text/javascript" src="./src/py_import_hooks.js"></script>
+
+  <script type="text/javascript" src="./src/brython_stdlib.js"></script>
+
+  <script src="./ace/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script src="./ace/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
+  <script src="./ace/mode-python3.js" type="text/javascript" charset="utf-8"></script>
+  <script src="./ace/snippets/python.js" type="text/javascript" charset="utf-8"></script>
+
+  <style>
+    .main {
+      margin: 10px 50px;
+    }
+
+    .editor {
+      min-height: 200px;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    #jsEditor {
+      height: 450px;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    .res {
+      width: 800px;
+      background-color: #141414;
+      height: 250px;
+      padding: 10px;
+      color: white;
+      font-size: 16px;
+      border-left: 42px solid #232323;
+    }
+
+    .btn-wrapper {
+      width: 100%;
+      background-color: white;
+      height: 48px;
+    }
+
+    .run {
+      background-color: #4caf50;
+      /* Green */
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      float: right;
+      cursor: pointer;
+    }
+
+    .wrapper {
+      margin-bottom: 70px;
+    }
+  </style>
+</head>
+
+<body onload="brython({debug:1})">
+  <noscript>
+    You need to enable JavaScript to run this app.
+  </noscript>
+  <div id="simulation"></div>
+  <div id="root"></div>
+  <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+
+  <div class="main">
+    <div class="wrapper">
+      <h4 style="padding-left : 10px">Write Python Code Here : </h4>
+      <h5 style="padding-left : 10px">
+        <strong>Note : </strong>Please do not change the name of the function & function must return one of there direction (LEFT,
+        RIGHT, UP, DOWN)
+      </h5>
+      <div id="editor" class="editor"></div>
+      <div class="">
+        <button type="button" class="run" id="run">Run Py</button>
+      </div>
+    </div>
+    <div id="js" class="js">
+      <h4 style="padding-left : 10px">Python Console</h4>
+      <textarea id="console" class="res"></textarea>
+      <textarea id="console-js" class="res" hidden></textarea>
+      <div id="react"></div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    const editor = ace.edit('editor');
+    window.editor = editor;
+    //const jsEditor = ace.edit('jsEditor');
+
+    const initEditor = () => {
+      editor.session.setMode('ace/mode/python');
+      editor.setValue('def getPlayerFunction(world, playerNum):\n\tprint(window.JSON.stringify(world))\n\tprint(playerNum)\t\n\t\n\treturn "LEFT"');
+      editor.gotoLine(4);
+      editor.session.setTabSize(4);
+      editor.setOptions({
+        'enableLiveAutocompletion': true,
+        'enableSnippets': true,
+        'highlightActiveLine': false,
+        'highlightSelectedWord': true
+      })
+      document.getElementById('editor').style.fontSize = '16px';
+    }
+    initEditor();
+    window.newPySrc = ''
+    window.oldPySrc = '';
+  </script>
+  <script type="text/python3" id="tests_editor">
+from browser import document as doc, window
+from browser import html
+import myEditor
+# next functions are defined in myEditor.py
+doc['run'].bind('click',lambda *args: myEditor.run())
+   </script>
+</body>
+
+</html>
