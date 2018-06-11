@@ -97,7 +97,7 @@ def run(*args):
     show_js(4);
     doc["console"].value = ''
     preCode = "from browser import document as doc, window, alert;\nworld=window.world;\nplayerNum=window.playerNum;\n";
-    postCode = "\nwindow.result=getPlayerFunction(world,playerNum);";
+    postCode = "\nwindow.result=getPyPlayersCommands(world,playerNum);";
     userCode = editor.getValue();
     src=preCode + "" + userCode + "" + postCode;
     if storage is not None:
@@ -119,7 +119,7 @@ def run(*args):
 
 def show_js(ev):
     preCode ="from browser import document as doc, window, alert;\nworld=window.world;\nplayerNum=window.playerNum;\n";
-    postCode = "\nwindow.getPlayerFunction=getPlayerFunction(world,playerNum);";
+    postCode = "\nwindow.getPyPlayersCommands=getPyPlayersCommands(world,playerNum);";
     userCode = editor.getValue();
     src=preCode + "" + userCode + "" + postCode;
     window.newPySrc=src;

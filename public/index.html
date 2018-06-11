@@ -21,37 +21,7 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
   <title>React App</title>
-
-  <script type="text/javascript" src="./src/brython_builtins.js"></script>
-  <script type="text/javascript" src="./src/version_info.js"></script>
-  <script type="text/javascript" src="./src/py2js.js"></script>
-  <script type="text/javascript" src="./src/py_object.js"></script>
-  <script type="text/javascript" src="./src/py_type.js"></script>
-  <script type="text/javascript" src="./src/py_utils.js"></script>
-  <script type="text/javascript" src="./src/py_sort.js"></script>
-  <script type="text/javascript" src="./src/py_builtin_functions.js"></script>
-  <script type="text/javascript" src="./src/py_exceptions.js"></script>
-  <script type="text/javascript" src="./src/py_range_slice.js"></script>
-  <script type="text/javascript" src="./src/py_bytes.js"></script>
-  <script type="text/javascript" src="./src/py_set.js"></script>
-  <script type="text/javascript" src="./src/js_objects.js"></script>
-  <script type="text/javascript" src="./src/stdlib_paths.js"></script>
-  <script type="text/javascript" src="./src/py_import.js"></script>
-
-  <script type="text/javascript" src="./src/unicode.min.js"></script>
-  <script type="text/javascript" src="./src/py_string.js"></script>
-  <script type="text/javascript" src="./src/py_int.js"></script>
-  <script type="text/javascript" src="./src/py_long_int.js"></script>
-  <script type="text/javascript" src="./src/py_float.js"></script>
-  <script type="text/javascript" src="./src/py_complex.js"></script>
-  <script type="text/javascript" src="./src/py_dict.js"></script>
-  <script type="text/javascript" src="./src/py_list.js"></script>
-  <script type="text/javascript" src="./src/py_generator.js"></script>
-  <script type="text/javascript" src="./src/py_dom.js"></script>
-
-  <script type="text/javascript" src="./src/builtin_modules.js"></script>
-  <script type="text/javascript" src="./src/py_import_hooks.js"></script>
-
+  <script type="text/javascript" src="./src/brython.js"></script>
   <script type="text/javascript" src="./src/brython_stdlib.js"></script>
 
   <script src="./ace/ace.js" type="text/javascript" charset="utf-8"></script>
@@ -60,14 +30,28 @@
   <script src="./ace/snippets/python.js" type="text/javascript" charset="utf-8"></script>
 
   <style>
+    body {
+      font-family: sans-serif;
+      background-color: #212020;
+      color: white;
+    }
+
+    .center {
+      text-align: center;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
     .main {
       margin: 10px 50px;
+      text-align: left;
     }
 
     .editor {
-      min-height: 200px;
+      min-height: 300px;
       font-size: 16px;
       width: 100%;
+      text-align: left;
     }
 
     #jsEditor {
@@ -77,7 +61,7 @@
     }
 
     .res {
-      width: 800px;
+      width: 94%;
       background-color: #141414;
       height: 250px;
       padding: 10px;
@@ -118,34 +102,25 @@
   </noscript>
   <div id="simulation"></div>
   <div id="root"></div>
-  <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-
-  <div class="main">
-    <div class="wrapper">
-      <h4 style="padding-left : 10px">Write Python Code Here : </h4>
-      <h5 style="padding-left : 10px">
-        <strong>Note : </strong>Please do not change the name of the function & function must return one of there direction (LEFT,
-        RIGHT, UP, DOWN)
-      </h5>
-      <div id="editor" class="editor"></div>
-      <div class="">
-        <button type="button" class="run" id="run">Run Py</button>
+  <div class="center">
+    <div class="main">
+      <div class="wrapper">
+        <h4 style="padding-left : 10px">Write Python Code Here : </h4>
+        <h5 style="padding-left : 10px">
+          <strong>Note : </strong>Please do not change the name of the function & function must return one of these direction (LEFT,
+          RIGHT, UP, DOWN)
+        </h5>
+        <div id="editor" class="editor"></div>
+        <div class="">
+          <button type="button" class="run" id="run">Run</button>
+        </div>
       </div>
-    </div>
-    <div id="js" class="js">
-      <h4 style="padding-left : 10px">Python Console</h4>
-      <textarea id="console" class="res"></textarea>
-      <textarea id="console-js" class="res" hidden></textarea>
-      <div id="react"></div>
+      <div id="js" class="js">
+        <h4 style="padding-left : 10px">Python Console</h4>
+        <textarea id="console" class="res"></textarea>
+        <textarea id="console-js" class="res" hidden></textarea>
+        <div id="react"></div>
+      </div>
     </div>
   </div>
   <script type="text/javascript">
@@ -155,7 +130,7 @@
 
     const initEditor = () => {
       editor.session.setMode('ace/mode/python');
-      editor.setValue('def getPlayerFunction(world, playerNum):\n\tprint(window.JSON.stringify(world))\n\tprint(playerNum)\t\n\t\n\treturn "LEFT"');
+      editor.setValue('def getPyPlayersCommands(world, playerNum):\n\tprint(window.JSON.stringify(world))\n\tprint(playerNum)\t\n\t\n\treturn "LEFT"');
       editor.gotoLine(4);
       editor.session.setTabSize(4);
       editor.setOptions({

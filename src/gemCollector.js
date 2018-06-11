@@ -270,38 +270,38 @@ class PlayGemCollectorGame extends Component {
   };
   initFunctionEditor = () => {
     return '';
-    // const { classes } = this.props;
-    // const { updatedCode } = this.state;
-    // return (
-    //   <div>
-    //     <h4>{'function getPlayersCommands(world, playerNum){'}</h4>
-    //     {/* <AceEditor
-    //       mode="javascript"
-    //       theme="github"
-    //       name="customFunctionCodeEditor"
-    //       width={'100%'}
-    //       onChange={this.handleChange}
-    //       onValidate={this.handleValidation}
-    //       fontSize={14}
-    //       showPrintMargin={true}
-    //       showGutter={true}
-    //       highlightActiveLine={true}
-    //       value={updatedCode}
-    //       setOptions={{
-    //         enableBasicAutocompletion: false,
-    //         enableLiveAutocompletion: false,
-    //         enableSnippets: false,
-    //         showLineNumbers: true,
-    //         tabSize: 2,
-    //       }}
-    //     /> */}
-    //     <h4>{'}'}</h4>
-    //     <button variant="raised" color="primary" onClick={this.updateCustomCode}>
-    //       Update code
-    //     </button>
-    //     <div id="py-editor" />
-    //   </div>
-    // );
+    const { classes } = this.props;
+    const { updatedCode } = this.state;
+    return (
+      <div>
+        <h4>{'function getPlayersCommands(world, playerNum){'}</h4>
+        {/* <AceEditor
+          mode="javascript"
+          theme="github"
+          name="customFunctionCodeEditor"
+          width={'100%'}
+          onChange={this.handleChange}
+          onValidate={this.handleValidation}
+          fontSize={14}
+          showPrintMargin={true}
+          showGutter={true}
+          highlightActiveLine={true}
+          value={updatedCode}
+          setOptions={{
+            enableBasicAutocompletion: false,
+            enableLiveAutocompletion: false,
+            enableSnippets: false,
+            showLineNumbers: true,
+            tabSize: 2,
+          }}
+        /> */}
+        <h4>{'}'}</h4>
+        <button variant="raised" color="primary" onClick={this.updateCustomCode}>
+          Update code
+        </button>
+        <div id="py-editor" />
+      </div>
+    );
   };
 }
 
