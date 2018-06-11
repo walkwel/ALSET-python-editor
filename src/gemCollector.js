@@ -153,20 +153,24 @@ class PlayGemCollectorGame extends Component {
   }
   getPyPlayersCommands(world, playerNum) {
     let None = null;
-    let direction = { left: false, right: false, up: true, down: false };
+    let direction = { left: false, right: false, up: false, down: false };
     window.world = world;
     window.playerNum = playerNum;
+    // console.log(window.newPySrc);
     try {
       const jscode = window.newPySrc;
       let result = eval('(function() {' + jscode + '}())');
       const res = window.result || '';
+      console.log(res);
       direction[res.toLowerCase()] = true;
       window.oldPySrc = window.newPySrc;
       return direction;
     } catch (err) {
+      console.log(err);
       const jscode = window.oldPySrc;
       let result = eval('(function() {' + jscode + '}())');
       const res = window.result || '';
+      // console.log('dd', res);
       direction[res.toLowerCase()] = true;
       return direction;
     }
@@ -306,7 +310,7 @@ class PlayGemCollectorGame extends Component {
 }
 
 PlayGemCollectorGame.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object,
   onGameEvent: PropTypes.func,
   showCodeEditor: PropTypes.bool,
   mode: PropTypes.string,

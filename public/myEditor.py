@@ -119,11 +119,10 @@ def run(*args):
 
 def show_js(ev):
     preCode ="from browser import document as doc, window, alert;\nworld=window.world;\nplayerNum=window.playerNum;\n";
-    postCode = "\nwindow.getPyPlayersCommands=getPyPlayersCommands(world,playerNum);";
+    postCode = "\nwindow.result=getPyPlayersCommands(world,playerNum);";
     userCode = editor.getValue();
     src=preCode + "" + userCode + "" + postCode;
-    window.newPySrc=src;
-    # doc["console-js"].value = javascript.py2js(src, '__main__')
+    window.newPySrc = javascript.py2js(src, '__main__')
 run(4)
 # if has_ace:
 #     reset_src()
