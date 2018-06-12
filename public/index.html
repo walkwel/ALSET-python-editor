@@ -21,79 +21,10 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
   <title>React App</title>
-  <script type="text/javascript" src="./src/brython.js"></script>
-  <script type="text/javascript" src="./src/brython_stdlib.js"></script>
-
-  <script src="./ace/ace.js" type="text/javascript" charset="utf-8"></script>
-  <script src="./ace/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
-  <script src="./ace/mode-python3.js" type="text/javascript" charset="utf-8"></script>
-  <script src="./ace/snippets/python.js" type="text/javascript" charset="utf-8"></script>
-
-  <style>
-    body {
-      font-family: sans-serif;
-      background-color: #212020;
-      color: white;
-    }
-
-    .center {
-      text-align: center;
-      max-width: 1150px;
-      margin: 0 auto;
-    }
-
-    .main {
-      margin: 10px 50px;
-      text-align: left;
-    }
-
-    .editor {
-      min-height: 300px;
-      font-size: 16px;
-      width: 100%;
-      text-align: left;
-    }
-
-    #jsEditor {
-      height: 450px;
-      font-size: 16px;
-      width: 100%;
-    }
-
-    .res {
-      width: 94%;
-      background-color: #141414;
-      height: 250px;
-      padding: 10px;
-      color: white;
-      font-size: 16px;
-      border-left: 42px solid #232323;
-    }
-
-    .btn-wrapper {
-      width: 100%;
-      background-color: white;
-      height: 48px;
-    }
-
-    .run {
-      background-color: #4caf50;
-      /* Green */
-      border: none;
-      color: white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      float: right;
-      cursor: pointer;
-    }
-
-    .wrapper {
-      margin-bottom: 70px;
-    }
-  </style>
+  <script type="text/javascript" src="https://firebasestorage.googleapis.com/v0/b/mytasks-e9021.appspot.com/o/assets%2Fbrython.js?alt=media&token=0127161c-b17d-41a0-ba83-8a17a3033f5c"></script>
+  <script type="text/javascript" src="https://firebasestorage.googleapis.com/v0/b/mytasks-e9021.appspot.com/o/assets%2Fbrython_stdlib.js?alt=media&token=feb7f897-10ac-4346-970e-609cf7591461"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.3.3/ace.js"></script>
+  <link href="/style.css" rel="stylesheet">
 </head>
 
 <body onload="brython({debug:1})">
@@ -130,7 +61,7 @@
 
     const initEditor = () => {
       editor.session.setMode('ace/mode/python');
-      editor.setValue('def getPyPlayersCommands(world, playerNum):\n\tprint(window.JSON.stringify(world))\n\tprint(playerNum)\t\n\t\n\treturn "LEFT"');
+      editor.setValue(`import random\ndef getPyPlayersCommands(world, playerNum):\n\tprint(window.JSON.stringify(world))\n\tprint(playerNum)\n\tfoo = ['RIGHT', 'LEFT', 'UP','DOWN']\n\tresult = random.choice(foo)\n\tprint(result)\n\treturn result`);
       editor.gotoLine(4);
       editor.session.setTabSize(4);
       editor.setOptions({

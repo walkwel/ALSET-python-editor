@@ -161,16 +161,13 @@ class PlayGemCollectorGame extends Component {
       const jscode = window.newPySrc;
       let result = eval('(function() {' + jscode + '}())');
       const res = window.result || '';
-      console.log(res);
       direction[res.toLowerCase()] = true;
       window.oldPySrc = window.newPySrc;
       return direction;
     } catch (err) {
-      console.log(err);
       const jscode = window.oldPySrc;
       let result = eval('(function() {' + jscode + '}())');
       const res = window.result || '';
-      // console.log('dd', res);
       direction[res.toLowerCase()] = true;
       return direction;
     }

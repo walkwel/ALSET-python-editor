@@ -94,7 +94,7 @@ def load_script(evt):
 # run a script, in global namespace if in_globals is True
 def run(*args):
     global output
-    show_js(4);
+    show_js();
     doc["console"].value = ''
     preCode = "from browser import document as doc, window, alert;\nworld=window.world;\nplayerNum=window.playerNum;\n";
     postCode = "\nwindow.result=getPyPlayersCommands(world,playerNum);";
@@ -117,13 +117,13 @@ def run(*args):
     print('<completed in %6.2f ms>' % ((time.perf_counter() - t0) * 1000.0))
     return state
 
-def show_js(ev):
+def show_js():
     preCode ="from browser import document as doc, window, alert;\nworld=window.world;\nplayerNum=window.playerNum;\n";
     postCode = "\nwindow.result=getPyPlayersCommands(world,playerNum);";
     userCode = editor.getValue();
     src=preCode + "" + userCode + "" + postCode;
     window.newPySrc = javascript.py2js(src, '__main__')
-run(4)
+run()
 # if has_ace:
 #     reset_src()
 # else:
