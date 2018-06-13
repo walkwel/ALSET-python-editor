@@ -360,7 +360,7 @@ class PlayGemCollectorGame extends Component {
           </div>
           <div id="js" className="js">
             <h4>Python Console</h4>
-            <textarea id="console" className="res" />
+            <textarea id="python-console" className="res" />
           </div>
         </div>
       </div>
