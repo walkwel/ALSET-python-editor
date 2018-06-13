@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import GemCollectorGame from './code/';
 import CustomFunctionCode from './code/customCode';
 import brace from 'brace';
-//import AceEditor from 'react-ace';
+import AceEditor from 'react-ace';
+import 'brace/mode/python';
 import 'brace/mode/javascript';
 import 'brace/theme/github';
 import config from './config';
@@ -12,6 +13,8 @@ import GameStore1 from './store/game-store1';
 import GameStore2 from './store/game-store2';
 import GameStore3 from './store/game-store3';
 import GameStore4 from './store/game-store4';
+
+import './style.css';
 
 const selectStore = mode => {
   switch (mode) {
@@ -57,6 +60,8 @@ class PlayGemCollectorGame extends Component {
     this.state = {
       customFunctionCode: CustomFunctionCode,
       updatedCode: CustomFunctionCode,
+      jsCode: '',
+      updateJsCode: '',
       timestamp: 0,
       timing: 1000,
       showMode: true,
@@ -66,6 +71,7 @@ class PlayGemCollectorGame extends Component {
       playGame: null,
       errors: [],
       store: selectStore(this.props.mode),
+      mode: 'python',
     };
     this.getCommands = this.getCommands.bind(this);
     this.getPlayersCommands = this.getPlayersCommands.bind(this);
@@ -158,16 +164,15 @@ class PlayGemCollectorGame extends Component {
     window.playerNum = playerNum;
     // console.log(window.newPySrc);
     try {
-      const jscode = window.newPySrc;
+      const jscode = this.state.updateJsCode;
       let result = eval('(function() {' + jscode + '}())');
       const res = window.result || '';
       direction[res.toLowerCase()] = true;
-      window.oldPySrc = window.newPySrc;
       return direction;
     } catch (err) {
-      const jscode = window.oldPySrc;
-      let result = eval('(function() {' + jscode + '}())');
-      const res = window.result || '';
+      // const jscode = window.oldPySrc;
+      // let result = eval('(function() {' + jscode + '}())');
+      const res = window.result || 'LEFT';
       direction[res.toLowerCase()] = true;
       return direction;
     }
@@ -183,14 +188,41 @@ class PlayGemCollectorGame extends Component {
     });
     this.setState({ customFunctionCode: this.state.updatedCode });
   }
+
   handleChange(newCode) {
-    this.setState({ updatedCode: newCode });
+    if (this.state.mode === 'python') {
+      this.setState({ updatedCode: newCode });
+    } else {
+      this.setState({ jsCode: newCode });
+    }
   }
   handleValidation(messages) {
     const errors = messages.filter(msg => (msg.type === 'error' ? true : false));
     this.setState({ errors: errors });
   }
-
+  handleMode = mode => {
+    this.setState({ mode });
+  };
+  handleRunCode = () => {
+    if (this.state.mode === 'python') {
+      window.runPython(this.state.updatedCode);
+      this.setState({ jsCode: window.newPySrc, updateJsCode: window.newPySrc });
+    } else {
+      window.newPySrc = this.state.jscode;
+      this.setState({ updateJsCode: this.state.jsCode });
+    }
+  };
+  componentDidMount() {
+    window.newPySrc = '';
+    window.oldPySrc = '';
+    window.result = '';
+    const interval = setInterval(() => {
+      if (window.runPython) {
+        this.handleRunCode();
+        clearInterval(interval);
+      }
+    }, 500);
+  }
   render() {
     const { showCodeEditor = false } = this.props;
     return (
@@ -270,37 +302,67 @@ class PlayGemCollectorGame extends Component {
     }
   };
   initFunctionEditor = () => {
-    return '';
     const { classes } = this.props;
-    const { updatedCode } = this.state;
+    const { updatedCode, mode, jsCode } = this.state;
+    const code = mode === 'python' ? updatedCode : jsCode;
     return (
-      <div>
-        <h4>{'function getPlayersCommands(world, playerNum){'}</h4>
-        {/* <AceEditor
-          mode="javascript"
-          theme="github"
-          name="customFunctionCodeEditor"
-          width={'100%'}
-          onChange={this.handleChange}
-          onValidate={this.handleValidation}
-          fontSize={14}
-          showPrintMargin={true}
-          showGutter={true}
-          highlightActiveLine={true}
-          value={updatedCode}
-          setOptions={{
-            enableBasicAutocompletion: false,
-            enableLiveAutocompletion: false,
-            enableSnippets: false,
-            showLineNumbers: true,
-            tabSize: 2,
-          }}
-        /> */}
-        <h4>{'}'}</h4>
-        <button variant="raised" color="primary" onClick={this.updateCustomCode}>
-          Update code
-        </button>
-        <div id="py-editor" />
+      <div className="center">
+        <div className="main">
+          <div className="wrapper">
+            <button
+              type="button"
+              className={mode === 'python' ? 'run' : 'run active'}
+              onClick={() => this.handleMode('python')}
+            >
+              Python
+            </button>
+            <button
+              type="button"
+              className={mode === 'python' ? 'run active' : 'run'}
+              onClick={() => this.handleMode('javascript')}
+            >
+              Javascript
+            </button>
+            <h4>
+              Write <b style={{ color: '#4caf50' }}>{mode.toUpperCase()}</b> Code Here :{' '}
+            </h4>
+            <h5>
+              <strong>Note : </strong>Please do not change the name of the function & function must return one of these
+              direction (LEFT, RIGHT, UP, DOWN)
+            </h5>
+            <div id="editor" className="editor">
+              <AceEditor
+                mode={mode}
+                theme="github"
+                name="customFunctionCodeEditor"
+                width={'100%'}
+                onChange={this.handleChange}
+                onValidate={this.handleValidation}
+                fontSize={16}
+                showPrintMargin={true}
+                showGutter={true}
+                highlightActiveLine={true}
+                value={code}
+                setOptions={{
+                  enableBasicAutocompletion: false,
+                  enableLiveAutocompletion: false,
+                  enableSnippets: false,
+                  showLineNumbers: true,
+                  tabSize: 2,
+                }}
+              />
+            </div>
+            <div className="">
+              <button type="button" className="run" id="run" onClick={this.handleRunCode}>
+                RUN {mode.toUpperCase()}
+              </button>
+            </div>
+          </div>
+          <div id="js" className="js">
+            <h4>Python Console</h4>
+            <textarea id="console" className="res" />
+          </div>
+        </div>
       </div>
     );
   };
